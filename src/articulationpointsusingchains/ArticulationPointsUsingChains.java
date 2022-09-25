@@ -62,12 +62,8 @@ public class ArticulationPointsUsingChains {
                      {0,0,0,0,1,0,0,0,0,1},
                      {0,0,0,0,1,0,0,0,1,0},
                     };
-        //Dfs dfs=new Dfs(graph6);
-        //dfs.dfsRun(2);
-        //dfs.printTreeEdges();
-        //dfs.printBackwardEdges();
         ArticulationChains articulation=new ArticulationChains(graph6);
-        articulation.findPridges();
+        articulation.runArticulationViaChains();
 
     }
     

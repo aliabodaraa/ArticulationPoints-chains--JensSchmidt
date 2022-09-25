@@ -27,7 +27,7 @@ public class Dfs {
     public Dfs(int[][] arr){
             this.originGraph=arr;
             Random r=new Random();        
-            this.rootNode=2;//r.nextInt(this.originGraph.length);
+            this.rootNode=r.nextInt(this.originGraph.length);
             this.status = new int[this.originGraph.length];
             this.visitTime = new int[this.originGraph.length];
             this.parents = new int[this.originGraph.length];
@@ -46,6 +46,16 @@ public class Dfs {
             System.out.print("\nDFS Execution Result : ");
 
     }
+    public int numOfDegree(int node){
+        int degreeOfNode=0;
+        for (int i = 0; i < this.originGraph.length; i++)
+            if(this.originGraph[node][i]==1)
+                degreeOfNode++;
+        for (int i = 0; i < this.originGraph.length; i++)
+            if(this.originGraph[i][node]==1)
+                degreeOfNode++;
+        return degreeOfNode;
+    }
     public int[] getParents(){
         return this.parents;
     }
@@ -55,11 +65,14 @@ public class Dfs {
     public int[][] getTreeEdgesGraph(){
             return this.treeEdgesGraph;
     }
+    public List<Pair<Integer, Integer>> getTreeEdges(){
+            return this.treeEdges;
+    }
     public List<Pair<Integer, Integer>> getBackwardEdges(){
             return this.backwardEdges;
     }
     public int[] getVisitTimes(){
-            return visitTime;
+            return this.visitTime;
     }
     public int getIndexInVisitTimes(int element){
         for (int j = 0; j < this.originGraph.length; j++)
@@ -137,7 +150,7 @@ public class Dfs {
     public void printVisitTime(){
        System.out.print("\nVisitTime Array : ");
        for (int j = 0; j < this.originGraph.length; j++)
-               System.out.print(visitTime[j]+" ");
+               System.out.print(this.visitTime[j]+" ");
     }    
     public void printTreeGraph(){
         this.setTreeEdgesGraph();

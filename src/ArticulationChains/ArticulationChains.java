@@ -36,40 +36,50 @@ public class ArticulationChains {
             return true;
       return false;
     }
-    public Pair<Integer,Integer> getBackEdgeFromNode(int node){
-      if(this.isExistBackEdgeFromNode(node))
+    public List<Pair<Integer,Integer>> getBackEdgesForNode(int node){
+      List<Pair<Integer,Integer>> list = new ArrayList<Pair<Integer,Integer>>();
             for(Pair edge:dfs.getBackwardEdges())  
-                if((int)edge.getValue()== node)
-                    return edge;
-      return new Pair<Integer,Integer>(-1,-1);      
+                if((int)edge.getValue() == node)
+                    list.add(edge);
+      return list;      
     }
-    public void ArticulationChainsRun(){
+    public void findPridges(){
+        System.out.print("\n11111111111");
+        for(Pair<Integer,Integer> l:this.findChains())
+            System.out.println("\n"+l);
+        System.out.print("\n22222222222");
+    }
+    public List<Pair<Integer,Integer>> findChains(){
+        List<Pair<Integer,Integer>> chainsNotContainsRoot=new ArrayList<Pair<Integer,Integer>> ();
          for(int i=0; i<this.graph.length;i++){
-             List path=new ArrayList();
-             Pair<Integer,Integer> backEdge=getBackEdgeFromNode(dfs.getIndexInVisitTimes(i));
-             //path.add(dfs.getIndexInVisitTimes(i));
-             if(backEdge.getKey()!=-1){
-                 System.out.print("\n"+backEdge+"  --   ");
-                 int startPath=(int)backEdge.getValue();
-                 path.add(backEdge.getValue());
-                 dfs.getVisitTimes()[backEdge.getValue()]=-2;
-                 path.add(backEdge.getKey());
-                 dfs.getVisitTimes()[backEdge.getKey()]=-2;
-                 int jump=dfs.getParents()[backEdge.getKey()];
-                 do{
-                    if((jump != startPath || dfs.getVisitTimes()[jump] != -2) && jump != -1){
-                        path.add(jump);
-                        dfs.getVisitTimes()[jump]=-2;
-                        jump=dfs.getParents()[jump];
-                     }else if((jump == startPath || dfs.getVisitTimes()[jump] == -2 ) && jump != -1){
-                        path.add(jump);
-                        break;
-                     }else if(jump == -1){
-                         break;
-                     }
-                 }while(true);
-             } System.out.print(path);
-             dfs.printVisitTime();
-         }
+             List<Pair<Integer,Integer>> backEdges = getBackEdgesForNode(dfs.getIndexInVisitTimes(i));
+             if(backEdges.size()!=0){
+                 int startPath=(int)backEdges.get(0).getValue();//1=2,  2
+                 dfs.getVisitTimes()[startPath]=-2;
+                 for(Pair<Integer,Integer> backEdgesForCurrentNode:backEdges){
+                     List path=new ArrayList();
+                        System.out.print("\n"+backEdgesForCurrentNode);
+                        path.add(startPath);
+                        path.add(backEdgesForCurrentNode.getKey());//1=2,  1
+                        //dfs.getVisitTimes()[backEdgesForCurrentNode.getKey()]=-2;
+                        if(i != 0){
+                           chainsNotContainsRoot.add(new Pair(startPath,backEdgesForCurrentNode.getKey()));
+                        }
+                        int jump=dfs.getParents()[backEdgesForCurrentNode.getKey()];
+                        while(dfs.getVisitTimes()[jump]!=-2){
+                            if(jump==-1) break;
+                            path.add(jump);
+                            dfs.getVisitTimes()[jump]=-2;
+                            if(i != 0){
+                                chainsNotContainsRoot.add(new Pair(jump,dfs.getParents()[jump]));
+                            }
+                            jump=dfs.getParents()[jump];
+                        };
+                        System.out.print(path);
+                        dfs.printVisitTime();
+                 }
+             }
+         }//dfs.printVisitTime();
+         return chainsNotContainsRoot;
     }
 }

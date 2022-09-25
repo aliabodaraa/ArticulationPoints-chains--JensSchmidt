@@ -21,10 +21,10 @@ public class ArticulationPointsUsingChains {
     public static void main(String[] args) {
         int[][] graph1={
                      {0,1,1,0,1},
-                     {1,0,0,0,0},
+                     {1,0,0,0,1},
                      {1,0,0,1,1},
                      {0,0,1,0,0},
-                     {1,0,1,0,0}
+                     {1,1,1,0,0}
                     };
        int[][] graph2={
                      {0,1,0,1,0,0},
@@ -67,7 +67,8 @@ public class ArticulationPointsUsingChains {
         //dfs.printTreeEdges();
         //dfs.printBackwardEdges();
         ArticulationChains articulation=new ArticulationChains(graph6);
-        articulation.ArticulationChainsRun();
+        articulation.findPridges();
+
     }
     
 }
